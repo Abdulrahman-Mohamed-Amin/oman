@@ -226,8 +226,8 @@ const DAYS = [
   {date:'2026-11-14',name:'السبت',short:'سبت',theme:'جدة ← مسقط',tasks:[
     ['12:05','','flight','ركوب الطائرة من جدة إلى مسقط'],
     ['16:00','','flight','الوصول إلى مسقط'],
-    ['','','meal','عشاء مع الأستاذ سلطان'],
-    ['','','workshop','ورشة عمل']
+    ['~19:00','','meal','عشاء مع الأستاذ سلطان'],
+    ['~21:00','','workshop','ورشة عمل']
   ]},
   {date:'2026-11-15',name:'الأحد',short:'أحد',theme:'مسقط',tasks:[
     ['07:00','','meal','الفطور'],
@@ -244,12 +244,12 @@ const DAYS = [
   {date:'2026-11-17',name:'الثلاثاء',short:'ثلاثاء',theme:'صلالة',tasks:[
     ['07:00','','meal','الفطور'],
     ['08:00','12:00','gov','زيارة الدوائر الحكومية'],
-    ['','','workshop','ورشة عمل للمواقع'],
-    ['','','tour','جولة سياحية']
+    ['~13:00','','workshop','ورشة عمل للمواقع'],
+    ['~17:00','','tour','جولة سياحية']
   ]},
   {date:'2026-11-18',name:'الأربعاء',short:'أربعاء',theme:'صلالة',tasks:[
     ['08:00','','gov','زيارة الدوائر الحكومية'],
-    ['','','workshop','ورشة عمل']
+    ['~13:00','','workshop','ورشة عمل']
   ]},
   {date:'2026-11-19',name:'الخميس',short:'خميس',theme:'العودة',tasks:[
     ['14:35','','flight','رحلة العودة']
@@ -318,11 +318,11 @@ function updateProgress(){
 
 function itemHTML(t,isToday){
   const c=CATS[t.cat];
-  const when=t.time?fmtTime(t.time):'';
+  const approx=t.time.startsWith('~'), when=t.time?fmtTime(t.time.replace('~','')):'';
   return `<li class="item" data-id="${t.id}"><label class="row" for="c-${t.id}">
     <span class="node"><input class="sr" type="checkbox" id="c-${t.id}" ${done.has(t.id)?'checked':''}><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></span>
     <span class="card">
-      <span class="top">${when?`<span class="time">${when}</span>`:''}
+      <span class="top">${when?`<span class="time">${when}</span>${approx?'<span class="dur">تقريبًا</span>':''}`:''}
         <span class="cat" style="--c:var(${c.c})"><svg viewBox="0 0 24 24">${ICON[c.i]}</svg>${c.label}</span></span>
       <p class="title">${t.title}</p>
     </span></label></li>`;
